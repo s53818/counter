@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icons generieren</title>
+<style>body{font:16px -apple-system,sans-serif;padding:20px}a{display:block;margin:8px 0}canvas{display:none}</style></head>
+<body>
+<h1>Icons generieren</h1>
+<p>Rendert <code>icon.svg</code> als PNG. Bitte über einen lokalen Server oder GitHub Pages öffnen (nicht file://).
+Dateien speichern und ins Projekt legen.</p>
+<div id="out"></div>
+<script>
+// [Dateiname, Größe] – gleiche Namen wie in manifest/index.html/sw.js
+const JOBS = [["apple-touch-icon.png",180],["icon-192.png",192],["icon-512.png",512],["icon-maskable-512.png",512]];
+const img = new Image();
+img.onload = () => JOBS.forEach(([name, size]) => {
+  const c = document.createElement("canvas"); c.width = c.height = size;
+  c.getContext("2d").drawImage(img, 0, 0, size, size);
+  c.toBlob((b) => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(b); a.download = name; a.textContent = `${name} (${size}×${size}) herunterladen`;
+    document.getElementById("out").appendChild(a);
+  });
+});
+img.src = "./icon.svg";
+</script></body></html>

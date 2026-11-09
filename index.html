@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Rep Counter</title>
+
+  <!-- iOS Home-Screen-App -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Counter">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
+  <!-- theme-color passend zu Hell/Dunkel (Werte = --bg in style.css) -->
+  <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <!-- Update-Hinweis (wird von app.js eingeblendet) -->
+  <div id="update" class="update" hidden>
+    <span>Neue Version verfügbar</span>
+    <button id="updateBtn" type="button">Neu laden</button>
+  </div>
+
+  <main id="app">
+    <!-- Tab 1: Counter-Liste -->
+    <section id="tab-counters" class="tab active">
+      <header class="large-title"><h1>Counter</h1></header>
+      <ul id="list" class="list"></ul>
+      <p id="empty" class="empty" hidden>Noch keine Counter.<br>Tippe auf „Neuer Counter“.</p>
+    </section>
+
+    <!-- Tab 2: Backup -->
+    <section id="tab-settings" class="tab">
+      <header class="large-title"><h1>Backup</h1></header>
+      <div class="card group">
+        <p class="hint">Daten liegen nur lokal auf diesem Gerät. Sichere sie regelmäßig als Datei.</p>
+        <button id="exportBtn" class="row-btn" type="button">Exportieren (JSON)</button>
+        <button id="importBtn" class="row-btn" type="button">Importieren …</button>
+        <input id="importFile" type="file" accept="application/json,.json" hidden>
+      </div>
+      <p id="persistInfo" class="hint center"></p>
+    </section>
+  </main>
+
+  <!-- Schwebender Hinzufügen-Button (Daumenzone) -->
+  <button id="addBtn" class="fab" type="button">＋ Neuer Counter</button>
+
+  <!-- Tab-Bar unten -->
+  <nav class="tabbar">
+    <button class="tab-btn active" data-tab="tab-counters" type="button"><span class="ico">123</span>Counter</button>
+    <button class="tab-btn" data-tab="tab-settings" type="button"><span class="ico">⇅</span>Backup</button>
+  </nav>
+
+  <!-- Detailseite eines Counters (Vollbild) -->
+  <section id="detail" class="detail" hidden>
+    <header class="d-head">
+      <button id="backBtn" type="button">‹ Zurück</button>
+      <button id="dEditBtn" type="button">Bearbeiten</button>
+    </header>
+    <h2 id="dName" class="d-name"></h2>
+    <div class="d-mid">
+      <div id="dValue" class="d-value">0</div>
+      <div id="dStep" class="d-step"></div>
+    </div>
+    <div class="d-btns">
+      <button id="dDec" class="cbtn" type="button" aria-label="Runterzählen">−</button>
+      <button id="dInc" class="cbtn plus" type="button" aria-label="Hochzählen">+</button>
+    </div>
+  </section>
+
+  <!-- Bearbeiten-Sheet -->
+  <div id="sheetBack" class="sheet-back" hidden></div>
+  <form id="sheet" class="sheet" hidden>
+    <h2 id="sheetTitle">Counter</h2>
+    <label>Name <input id="fName" type="text" maxlength="40" autocomplete="off" required></label>
+    <label>Schrittweite <input id="fStep" type="number" inputmode="decimal" step="any" min="0.001" value="1" required></label>
+    <label>Stand <input id="fValue" type="number" inputmode="decimal" step="any" value="0"></label>
+    <div class="sheet-actions">
+      <button type="submit" class="primary">Speichern</button>
+      <button type="button" id="resetBtn">Auf 0 setzen</button>
+      <button type="button" id="delBtn" class="danger">Löschen</button>
+      <button type="button" id="cancelBtn">Abbrechen</button>
+    </div>
+  </form>
+
+  <script src="./app.js"></script>
+</body>
+</html>
